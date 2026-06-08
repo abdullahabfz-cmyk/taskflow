@@ -184,14 +184,13 @@
     </div>
 
     <!-- الخطوة 2: رمز OTP -->
+   <!-- الخطوة 2: انتظار الرابط -->
     <div class="auth-step" id="step-otp">
-      <div class="otp-hint">أُرسل رمز مكوّن من 6 أرقام إلى<br><strong id="otp-email-display" dir="ltr"></strong></div>
-      <label class="auth-label">رمز التحقق</label>
-      <input class="auth-input otp" id="otp-input" type="text" maxlength="6" placeholder="——————" dir="ltr" oninput="this.value=this.value.replace(/\D/g,'')">
-      <button class="auth-btn" id="verify-btn" onclick="verifyOTP()">تأكيد الدخول</button>
+      <div class="otp-hint" style="font-size:32px;margin-bottom:12px">📧</div>
+      <div class="otp-hint">تم إرسال رابط الدخول إلى<br><strong id="otp-email-display" dir="ltr"></strong><br><br>افتح إيميلك واضغط <strong>Sign in</strong></div>
       <div class="auth-msg" id="otp-msg"></div>
       <div class="auth-back" onclick="backToEmail()">← تغيير الإيميل</div>
-      <div class="auth-msg" style="margin-top:8px">لم يصلك الرمز؟ <span class="countdown" id="resend-countdown"></span> <span id="resend-link" style="color:var(--accent);cursor:pointer;display:none" onclick="sendOTP()">إعادة الإرسال</span></div>
+      <div class="auth-msg" style="margin-top:8px">لم يصلك الإيميل؟ <span class="countdown" id="resend-countdown"></span> <span id="resend-link" style="color:var(--accent);cursor:pointer;display:none" onclick="sendOTP()">إعادة الإرسال</span></div>
     </div>
   </div>
 </div>
