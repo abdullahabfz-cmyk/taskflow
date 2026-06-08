@@ -353,7 +353,7 @@ const api = {
     const r = await fetch(`${SUPABASE_URL}/auth/v1/otp`, {
       method:'POST',
       headers:{ 'apikey':SUPABASE_KEY, 'Content-Type':'application/json' },
-      body: JSON.stringify({ email, options:{ shouldCreateUser:true } })
+      body: JSON.stringify({ email })
     });
     return r.ok;
   },
