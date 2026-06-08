@@ -175,11 +175,13 @@
     <div class="auth-logo">Task<span>Flow</span></div>
     <div class="auth-sub">نظام إدارة المهام — سجّل دخولك للمتابعة</div>
 
-    <!-- الخطوة 1: الإيميل -->
+  <!-- تسجيل الدخول بكلمة سر -->
     <div class="auth-step active" id="step-email">
       <label class="auth-label">البريد الإلكتروني</label>
       <input class="auth-input" id="email-input" type="email" placeholder="example@email.com" dir="ltr">
-      <button class="auth-btn" id="send-btn" onclick="sendOTP()">إرسال رمز التحقق</button>
+      <label class="auth-label">كلمة السر</label>
+      <input class="auth-input" id="password-input" type="password" placeholder="••••••••">
+      <button class="auth-btn" id="send-btn" onclick="signIn()">دخول</button>
       <div class="auth-msg" id="email-msg"></div>
     </div>
 
@@ -440,25 +442,30 @@ function initials(name, email) {
 }
 
 // ─── Auth Flow ────────────────────────────────────
-async function sendOTP() {
+async function signIn() {
   const email = document.getElementById('email-input').value.trim();
-  if (!email || !email.includes('@')) {
-    showAuthMsg('email-msg', 'أدخل بريداً إلكترونياً صحيحاً', 'error'); return;
-  }
+  const password = document.getElementById('password-input').value;
+  if (!email || !password) { showAuthMsg('email-msg','أدخل الإيميل وكلمة السر','error'); return; }
   const btn = document.getElementById('send-btn');
-  btn.disabled = true; btn.textContent = 'جاري الإرسال...';
-  const ok = await api.sendOTP(email);
-  btn.disabled = false; btn.textContent = 'إرسال رمز التحقق';
-  if (ok) {
-    document.getElementById('otp-email-display').textContent = email;
-    document.getElementById('step-email').classList.remove('active');
-    document.getElementById('step-otp').classList.add('active');
-    document.getElementById('otp-input').focus();
-    startCountdown();
-  } else {
-    showAuthMsg('email-msg', 'تعذّر الإرسال، تحقق من الإيميل وحاول مجدداً', 'error');
-  }
+  btn.disabled = true; btn.textContent = 'جاري الدخول...';
+  try {
+    const r = await fetch(`${SUPABASE_URL}/auth/v1/token?grant_type=password`, {
+      method:'POST',
+      headers:{ 'apikey':SUPABASE_KEY, 'Content-Type':'application/json' },
+      body: JSON.stringify({ email, password })
+    });
+    const data = await r.json();
+    if (data.access_token) {
+      localStorage.setItem('tf_token', data.access_token);
+      currentUser = data.user;
+      await afterLogin();
+    } else {
+      showAuthMsg('email-msg', 'الإيميل أو كلمة السر غير صحيحة', 'error');
+    }
+  } catch { showAuthMsg('email-msg','حدث خطأ، حاول مجدداً','error'); }
+  btn.disabled = false; btn.textContent = 'دخول';
 }
+async function sendOTP() {}
 
 async function verifyOTP() {
   const email = document.getElementById('email-input').value.trim();
