@@ -439,30 +439,63 @@ function initials(name, email) {
 }
 
 // ─── Auth Flow ────────────────────────────────────
-async function signIn() {
+async function sendOTP() {
   const email = document.getElementById('email-input').value.trim();
-  const password = document.getElementById('password-input').value;
-  if (!email || !password) { showAuthMsg('email-msg','أدخل الإيميل وكلمة السر','error'); return; }
+  if (!email || !email.includes('@')) {
+    showAuthMsg('email-msg', 'أدخل بريداً إلكترونياً صحيحاً', 'error'); return;
+  }
   const btn = document.getElementById('send-btn');
-  btn.disabled = true; btn.textContent = 'جاري الدخول...';
-  try {
-    const r = await fetch(`${SUPABASE_URL}/auth/v1/token?grant_type=password`, {
-      method:'POST',
-      headers:{ 'apikey':SUPABASE_KEY, 'Content-Type':'application/json' },
-      body: JSON.stringify({ email, password })
-    });
-    const data = await r.json();
-    if (data.access_token) {
-      localStorage.setItem('tf_token', data.access_token);
-      currentUser = data.user;
-      await afterLogin();
-    } else {
-      showAuthMsg('email-msg', 'الإيميل أو كلمة السر غير صحيحة', 'error');
-    }
-  } catch { showAuthMsg('email-msg','حدث خطأ، حاول مجدداً','error'); }
-  btn.disabled = false; btn.textContent = 'دخول';
+  btn.disabled = true; btn.textContent = 'جاري الإرسال...';
+  const ok = await api.sendOTP(email);
+  btn.disabled = false; btn.textContent = 'إرسال رمز التحقق';
+  if (ok) {
+    document.getElementById('otp-email-display').textContent = email;
+    document.getElementById('step-email').classList.remove('active');
+    document.getElementById('step-otp').classList.add('active');
+    document.getElementById('otp-input').focus();
+    startCountdown();
+  } else {
+    showAuthMsg('email-msg', 'تعذّر الإرسال، تحقق من الإيميل وحاول مجدداً', 'error');
+  }
 }
-async function sendOTP() {}
+
+async function verifyOTP() {
+  const email = document.getElementById('email-input').value.trim();
+  const token = document.getElementById('otp-input').value.trim();
+  if (token.length < 6) { showAuthMsg('otp-msg', 'أدخل الرمز المكوّن من 6 أرقام', 'error'); return; }
+  const btn = document.getElementById('verify-btn');
+  btn.disabled = true; btn.textContent = 'جاري التحقق...';
+  const data = await api.verifyOTP(email, token);
+  btn.disabled = false; btn.textContent = 'تأكيد الدخول';
+  if (data && data.access_token) {
+    localStorage.setItem('tf_token', data.access_token);
+    currentUser = data.user;
+    await afterLogin();
+  } else {
+    showAuthMsg('otp-msg', 'الرمز غير صحيح أو منتهي الصلاحية', 'error');
+  }
+}
+
+function backToEmail() {
+  document.getElementById('step-otp').classList.remove('active');
+  document.getElementById('step-email').classList.add('active');
+  document.getElementById('otp-input').value = '';
+}
+
+let countdownTimer;
+function startCountdown() {
+  let secs = 60;
+  const el = document.getElementById('resend-countdown');
+  const link = document.getElementById('resend-link');
+  link.style.display = 'none';
+  clearInterval(countdownTimer);
+  countdownTimer = setInterval(() => {
+    secs--;
+    el.textContent = secs > 0 ? `انتظر ${secs}ث` : '';
+    if (secs <= 0) { clearInterval(countdownTimer); link.style.display = 'inline'; }
+  }, 1000);
+}
+
 
 async function verifyOTP() {
   const email = document.getElementById('email-input').value.trim();
