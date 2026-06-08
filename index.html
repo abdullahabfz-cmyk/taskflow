@@ -7,137 +7,206 @@
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #0f1117; --bg2: #161b27; --bg3: #1e2535;
-    --border: rgba(255,255,255,0.08); --border2: rgba(255,255,255,0.14);
-    --text: #e8eaf0; --text2: #8892a4; --text3: #4a5568;
-    --accent: #4f7ef8; --accent-bg: rgba(79,126,248,0.12);
-    --green: #34d399; --green-bg: rgba(52,211,153,0.12);
-    --amber: #fbbf24; --amber-bg: rgba(251,191,36,0.12);
-    --red: #f87171; --red-bg: rgba(248,113,113,0.12);
-    --purple: #a78bfa; --purple-bg: rgba(167,139,250,0.12);
-    --sidebar-w: 220px; --radius: 10px; --radius-sm: 6px;
+    --bg:#0f1117;--bg2:#161b27;--bg3:#1e2535;
+    --border:rgba(255,255,255,0.08);--border2:rgba(255,255,255,0.14);
+    --text:#e8eaf0;--text2:#8892a4;--text3:#4a5568;
+    --accent:#4f7ef8;--accent-bg:rgba(79,126,248,0.12);
+    --green:#34d399;--green-bg:rgba(52,211,153,0.12);
+    --amber:#fbbf24;--amber-bg:rgba(251,191,36,0.12);
+    --red:#f87171;--red-bg:rgba(248,113,113,0.12);
+    --purple:#a78bfa;--purple-bg:rgba(167,139,250,0.12);
+    --sidebar-w:220px;--radius:10px;--radius-sm:6px;
   }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: 'IBM Plex Sans Arabic', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; font-size: 14px; }
-  .layout { display: flex; height: 100vh; overflow: hidden; }
-  .sidebar { width: var(--sidebar-w); background: var(--bg2); border-left: 1px solid var(--border); display: flex; flex-direction: column; flex-shrink: 0; }
-  .sidebar-logo { padding: 20px 18px 16px; border-bottom: 1px solid var(--border); }
-  .logo-text { font-size: 18px; font-weight: 600; color: var(--text); letter-spacing: -0.5px; }
-  .logo-dot { color: var(--accent); }
-  .sidebar-user { padding: 14px 18px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 10px; }
-  .avatar { width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; flex-shrink: 0; }
-  .user-info { flex: 1; min-width: 0; }
-  .user-name { font-size: 13px; font-weight: 500; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .user-role-badge { display: inline-block; font-size: 10px; padding: 1px 8px; border-radius: 10px; margin-top: 3px; font-weight: 500; }
-  .badge-admin { background: var(--red-bg); color: var(--red); }
-  .badge-member { background: var(--accent-bg); color: var(--accent); }
-  .nav { padding: 10px 0; flex: 1; }
-  .nav-item { display: flex; align-items: center; gap: 10px; padding: 9px 18px; font-size: 13px; color: var(--text2); cursor: pointer; transition: all .15s; position: relative; }
-  .nav-item:hover { color: var(--text); background: rgba(255,255,255,0.04); }
-  .nav-item.active { color: var(--text); background: rgba(79,126,248,0.1); }
-  .nav-item.active::before { content: ''; position: absolute; right: 0; top: 6px; bottom: 6px; width: 3px; background: var(--accent); border-radius: 2px 0 0 2px; }
-  .nav-icon { font-size: 16px; width: 18px; text-align: center; }
-  .nav-count { margin-right: auto; background: var(--bg3); color: var(--text2); font-size: 10px; padding: 1px 7px; border-radius: 10px; }
-  .role-switcher { margin: 0 12px 14px; background: var(--bg3); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 10px 12px; }
-  .role-switcher-label { font-size: 10px; color: var(--text3); margin-bottom: 6px; text-transform: uppercase; letter-spacing: .5px; }
-  .role-switcher select { width: 100%; background: var(--bg2); border: 1px solid var(--border2); color: var(--text); font-family: inherit; font-size: 12px; padding: 5px 8px; border-radius: var(--radius-sm); cursor: pointer; outline: none; }
-  .main { flex: 1; display: flex; flex-direction: column; overflow: hidden; background: var(--bg); }
-  .topbar { padding: 0 24px; height: 58px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; }
-  .page-title { font-size: 16px; font-weight: 600; color: var(--text); }
-  .topbar-actions { display: flex; gap: 8px; align-items: center; }
-  .btn { padding: 7px 16px; font-size: 13px; font-family: inherit; border-radius: var(--radius-sm); border: 1px solid var(--border2); background: transparent; color: var(--text2); cursor: pointer; transition: all .15s; display: inline-flex; align-items: center; gap: 6px; }
-  .btn:hover { background: var(--bg3); color: var(--text); }
-  .btn-primary { background: var(--accent); color: #fff; border-color: var(--accent); }
-  .btn-primary:hover { background: #3d6de8; color: #fff; }
-  .btn-danger { border-color: transparent; background: transparent; color: var(--text3); padding: 4px 6px; }
-  .btn-danger:hover { color: var(--red); background: var(--red-bg); }
-  .content { flex: 1; overflow-y: auto; padding: 22px 24px; }
-  .content::-webkit-scrollbar { width: 4px; }
-  .content::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 4px; }
-  .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 22px; }
-  .stat-card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 16px; }
-  .stat-num { font-size: 26px; font-weight: 600; line-height: 1; margin-bottom: 4px; }
-  .stat-label { font-size: 11px; color: var(--text2); }
-  .num-blue { color: var(--accent); } .num-amber { color: var(--amber); } .num-green { color: var(--green); } .num-default { color: var(--text); }
-  .toolbar { display: flex; align-items: center; margin-bottom: 14px; }
-  .filters { display: flex; gap: 6px; }
-  .filter-btn { padding: 5px 14px; font-size: 12px; font-family: inherit; border-radius: 20px; border: 1px solid var(--border); background: transparent; color: var(--text2); cursor: pointer; transition: all .15s; }
-  .filter-btn.active { background: var(--accent-bg); color: var(--accent); border-color: rgba(79,126,248,.3); }
-  .task-list { display: flex; flex-direction: column; gap: 6px; }
-  .task-item { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 12px 14px; display: flex; align-items: center; gap: 12px; transition: all .15s; animation: fadeIn .2s ease; }
-  .task-item:hover { border-color: var(--border2); background: var(--bg3); }
-  @keyframes fadeIn { from { opacity:0; transform:translateY(4px); } to { opacity:1; transform:translateY(0); } }
-  .checkbox { width: 18px; height: 18px; border-radius: 5px; border: 1.5px solid var(--border2); flex-shrink: 0; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all .15s; font-size: 10px; }
-  .checkbox:hover { border-color: var(--green); }
-  .checkbox.checked { background: var(--green); border-color: var(--green); color: #0f1117; font-weight: 700; }
-  .task-body { flex: 1; min-width: 0; }
-  .task-title-text { font-size: 13px; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .task-title-text.done { text-decoration: line-through; color: var(--text3); }
-  .task-meta { display: flex; align-items: center; gap: 8px; margin-top: 4px; flex-wrap: wrap; }
-  .status-badge { font-size: 10px; padding: 2px 8px; border-radius: 10px; font-weight: 500; }
-  .s-new { background: var(--accent-bg); color: var(--accent); }
-  .s-progress { background: var(--amber-bg); color: var(--amber); }
-  .s-done { background: var(--green-bg); color: var(--green); }
-  .assign-chip { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--text2); }
-  .mini-avatar { width: 18px; height: 18px; border-radius: 50%; font-size: 9px; font-weight: 600; display: flex; align-items: center; justify-content: center; }
-  .due-date { font-size: 11px; color: var(--text3); }
-  .priority-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
-  .p-high { background: var(--red); } .p-med { background: var(--amber); } .p-low { background: var(--green); }
-  .empty-state { text-align: center; padding: 60px 20px; color: var(--text3); }
-  .empty-icon { font-size: 40px; margin-bottom: 12px; opacity: .4; }
-  .loading-state { text-align: center; padding: 40px; color: var(--text2); font-size: 13px; }
-  .team-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px,1fr)); gap: 14px; }
-  .team-card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px 16px; text-align: center; }
-  .team-avatar { width: 52px; height: 52px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 600; margin: 0 auto 10px; }
-  .team-name { font-size: 14px; font-weight: 500; color: var(--text); margin-bottom: 4px; }
-  .team-role { font-size: 11px; color: var(--text2); margin-bottom: 12px; }
-  .team-stats { display: flex; justify-content: center; gap: 16px; }
-  .team-stat { text-align: center; }
-  .team-stat-num { font-size: 16px; font-weight: 600; }
-  .team-stat-label { font-size: 10px; color: var(--text3); }
-  .report-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-  .report-card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; }
-  .report-card-title { font-size: 12px; color: var(--text2); margin-bottom: 14px; text-transform: uppercase; letter-spacing: .4px; }
-  .bar-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
-  .bar-label { font-size: 12px; color: var(--text2); width: 90px; text-align: right; flex-shrink: 0; }
-  .bar-track { flex: 1; height: 6px; background: var(--bg3); border-radius: 4px; overflow: hidden; }
-  .bar-fill { height: 100%; border-radius: 4px; transition: width .6s ease; }
-  .bar-val { font-size: 11px; color: var(--text2); width: 20px; }
-  .pie-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
-  .pie-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
-  .pie-label { font-size: 13px; color: var(--text); flex: 1; }
-  .pie-pct { font-size: 13px; font-weight: 500; }
-  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.6); backdrop-filter: blur(4px); z-index: 100; align-items: center; justify-content: center; }
-  .modal-overlay.open { display: flex; }
-  .modal { background: var(--bg2); border: 1px solid var(--border2); border-radius: var(--radius); padding: 22px 24px; width: 360px; animation: slideUp .2s ease; }
-  @keyframes slideUp { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
-  .modal-title { font-size: 15px; font-weight: 600; margin-bottom: 18px; }
-  .field { margin-bottom: 14px; }
-  .field label { display: block; font-size: 11px; color: var(--text2); margin-bottom: 6px; text-transform: uppercase; letter-spacing: .4px; }
-  .field input, .field select, .field textarea { width: 100%; background: var(--bg3); border: 1px solid var(--border); color: var(--text); font-family: inherit; font-size: 13px; padding: 8px 12px; border-radius: var(--radius-sm); outline: none; transition: border-color .15s; }
-  .field input:focus, .field select:focus, .field textarea:focus { border-color: var(--accent); }
-  .field textarea { resize: none; height: 70px; }
-  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-  .modal-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 18px; }
-  .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--bg3); border: 1px solid var(--border2); color: var(--text); padding: 10px 20px; border-radius: var(--radius); font-size: 13px; transition: transform .3s ease; z-index: 200; white-space: nowrap; }
-  .toast.show { transform: translateX(-50%) translateY(0); }
-  .locked { opacity: .4; pointer-events: none; }
-  .db-indicator { font-size: 10px; padding: 2px 8px; border-radius: 8px; margin-right: auto; }
-  .db-on { background: var(--green-bg); color: var(--green); }
-  .db-off { background: var(--red-bg); color: var(--red); }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'IBM Plex Sans Arabic',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:14px;}
+
+  /* ─── Auth Screen ─── */
+  .auth-screen{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px;}
+  .auth-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:36px 32px;width:100%;max-width:380px;}
+  .auth-logo{font-size:22px;font-weight:600;margin-bottom:6px;}
+  .auth-logo span{color:var(--accent);}
+  .auth-sub{font-size:13px;color:var(--text2);margin-bottom:28px;}
+  .auth-step{display:none;}
+  .auth-step.active{display:block;}
+  .auth-label{font-size:11px;color:var(--text2);text-transform:uppercase;letter-spacing:.4px;margin-bottom:6px;display:block;}
+  .auth-input{width:100%;background:var(--bg3);border:1px solid var(--border);color:var(--text);font-family:inherit;font-size:14px;padding:10px 14px;border-radius:var(--radius-sm);outline:none;transition:border-color .15s;margin-bottom:14px;}
+  .auth-input:focus{border-color:var(--accent);}
+  .auth-input.otp{letter-spacing:6px;font-size:20px;text-align:center;font-weight:600;}
+  .auth-btn{width:100%;padding:11px;background:var(--accent);color:#fff;border:none;border-radius:var(--radius-sm);font-family:inherit;font-size:14px;font-weight:500;cursor:pointer;transition:background .15s;}
+  .auth-btn:hover{background:#3d6de8;}
+  .auth-btn:disabled{opacity:.5;cursor:not-allowed;}
+  .auth-msg{font-size:12px;color:var(--text2);margin-top:10px;text-align:center;line-height:1.6;}
+  .auth-msg.error{color:var(--red);}
+  .auth-msg.success{color:var(--green);}
+  .auth-back{font-size:12px;color:var(--text2);cursor:pointer;margin-top:12px;text-align:center;}
+  .auth-back:hover{color:var(--text);}
+  .otp-hint{font-size:12px;color:var(--text2);text-align:center;margin-bottom:14px;line-height:1.6;}
+  .countdown{color:var(--amber);font-weight:500;}
+
+  /* ─── App Layout ─── */
+  .app{display:none;}
+  .app.active{display:flex;height:100vh;overflow:hidden;}
+  .sidebar{width:var(--sidebar-w);background:var(--bg2);border-left:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;}
+  .sidebar-logo{padding:20px 18px 16px;border-bottom:1px solid var(--border);}
+  .logo-text{font-size:18px;font-weight:600;color:var(--text);letter-spacing:-0.5px;}
+  .logo-dot{color:var(--accent);}
+  .sidebar-user{padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;}
+  .avatar{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;flex-shrink:0;}
+  .user-info{flex:1;min-width:0;}
+  .user-name{font-size:13px;font-weight:500;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .user-role-badge{display:inline-block;font-size:10px;padding:1px 8px;border-radius:10px;margin-top:3px;font-weight:500;}
+  .badge-admin{background:var(--red-bg);color:var(--red);}
+  .badge-member{background:var(--accent-bg);color:var(--accent);}
+  .badge-viewer{background:var(--purple-bg);color:var(--purple);}
+  .nav{padding:10px 0;flex:1;}
+  .nav-item{display:flex;align-items:center;gap:10px;padding:9px 18px;font-size:13px;color:var(--text2);cursor:pointer;transition:all .15s;position:relative;}
+  .nav-item:hover{color:var(--text);background:rgba(255,255,255,0.04);}
+  .nav-item.active{color:var(--text);background:rgba(79,126,248,0.1);}
+  .nav-item.active::before{content:'';position:absolute;right:0;top:6px;bottom:6px;width:3px;background:var(--accent);border-radius:2px 0 0 2px;}
+  .nav-icon{font-size:16px;width:18px;text-align:center;}
+  .nav-count{margin-right:auto;background:var(--bg3);color:var(--text2);font-size:10px;padding:1px 7px;border-radius:10px;}
+  .sidebar-footer{padding:10px 14px 14px;}
+  .logout-btn{width:100%;padding:7px;background:transparent;border:1px solid var(--border);color:var(--text2);font-family:inherit;font-size:12px;border-radius:var(--radius-sm);cursor:pointer;transition:all .15s;}
+  .logout-btn:hover{background:var(--red-bg);color:var(--red);border-color:var(--red);}
+  .main{flex:1;display:flex;flex-direction:column;overflow:hidden;background:var(--bg);}
+  .topbar{padding:0 24px;height:58px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+  .page-title{font-size:16px;font-weight:600;color:var(--text);}
+  .topbar-actions{display:flex;gap:8px;align-items:center;}
+  .btn{padding:7px 16px;font-size:13px;font-family:inherit;border-radius:var(--radius-sm);border:1px solid var(--border2);background:transparent;color:var(--text2);cursor:pointer;transition:all .15s;display:inline-flex;align-items:center;gap:6px;}
+  .btn:hover{background:var(--bg3);color:var(--text);}
+  .btn-primary{background:var(--accent);color:#fff;border-color:var(--accent);}
+  .btn-primary:hover{background:#3d6de8;color:#fff;}
+  .btn-danger{border-color:transparent;background:transparent;color:var(--text3);padding:4px 6px;}
+  .btn-danger:hover{color:var(--red);background:var(--red-bg);}
+  .content{flex:1;overflow-y:auto;padding:22px 24px;}
+  .content::-webkit-scrollbar{width:4px;}
+  .content::-webkit-scrollbar-thumb{background:var(--border2);border-radius:4px;}
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:22px;}
+  .stat-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px;}
+  .stat-num{font-size:26px;font-weight:600;line-height:1;margin-bottom:4px;}
+  .stat-label{font-size:11px;color:var(--text2);}
+  .num-blue{color:var(--accent);}.num-amber{color:var(--amber);}.num-green{color:var(--green);}.num-default{color:var(--text);}
+  .toolbar{display:flex;align-items:center;margin-bottom:14px;}
+  .filters{display:flex;gap:6px;}
+  .filter-btn{padding:5px 14px;font-size:12px;font-family:inherit;border-radius:20px;border:1px solid var(--border);background:transparent;color:var(--text2);cursor:pointer;transition:all .15s;}
+  .filter-btn.active{background:var(--accent-bg);color:var(--accent);border-color:rgba(79,126,248,.3);}
+  .task-list{display:flex;flex-direction:column;gap:6px;}
+  .task-item{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:12px 14px;display:flex;align-items:center;gap:12px;transition:all .15s;animation:fadeIn .2s ease;}
+  .task-item:hover{border-color:var(--border2);background:var(--bg3);}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:translateY(0);}}
+  .checkbox{width:18px;height:18px;border-radius:5px;border:1.5px solid var(--border2);flex-shrink:0;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;font-size:10px;}
+  .checkbox:hover{border-color:var(--green);}
+  .checkbox.checked{background:var(--green);border-color:var(--green);color:#0f1117;font-weight:700;}
+  .task-body{flex:1;min-width:0;}
+  .task-title-text{font-size:13px;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .task-title-text.done{text-decoration:line-through;color:var(--text3);}
+  .task-meta{display:flex;align-items:center;gap:8px;margin-top:4px;flex-wrap:wrap;}
+  .status-badge{font-size:10px;padding:2px 8px;border-radius:10px;font-weight:500;}
+  .s-new{background:var(--accent-bg);color:var(--accent);}
+  .s-progress{background:var(--amber-bg);color:var(--amber);}
+  .s-done{background:var(--green-bg);color:var(--green);}
+  .assign-chip{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text2);}
+  .mini-avatar{width:18px;height:18px;border-radius:50%;font-size:9px;font-weight:600;display:flex;align-items:center;justify-content:center;}
+  .due-date{font-size:11px;color:var(--text3);}
+  .priority-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
+  .p-high{background:var(--red);}.p-med{background:var(--amber);}.p-low{background:var(--green);}
+  .empty-state{text-align:center;padding:60px 20px;color:var(--text3);}
+  .empty-icon{font-size:40px;margin-bottom:12px;opacity:.4;}
+  .loading-state{text-align:center;padding:40px;color:var(--text2);font-size:13px;}
+
+  /* ─── Team Page ─── */
+  .team-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px;}
+  .team-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:18px 16px;text-align:center;}
+  .team-avatar{width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:600;margin:0 auto 10px;}
+  .team-name{font-size:14px;font-weight:500;color:var(--text);margin-bottom:4px;}
+  .team-role{font-size:11px;color:var(--text2);margin-bottom:12px;}
+  .team-stats{display:flex;justify-content:center;gap:16px;}
+  .team-stat{text-align:center;}
+  .team-stat-num{font-size:16px;font-weight:600;}
+  .team-stat-label{font-size:10px;color:var(--text3);}
+
+  /* ─── Members Management ─── */
+  .members-list{display:flex;flex-direction:column;gap:8px;margin-top:16px;}
+  .member-row{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:12px 16px;display:flex;align-items:center;gap:12px;}
+  .member-info{flex:1;}
+  .member-name{font-size:13px;font-weight:500;color:var(--text);}
+  .member-email{font-size:11px;color:var(--text2);}
+  .role-select{background:var(--bg3);border:1px solid var(--border);color:var(--text);font-family:inherit;font-size:12px;padding:4px 8px;border-radius:var(--radius-sm);cursor:pointer;outline:none;}
+
+  /* ─── Reports ─── */
+  .report-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  .report-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:16px;}
+  .report-card-title{font-size:12px;color:var(--text2);margin-bottom:14px;text-transform:uppercase;letter-spacing:.4px;}
+  .bar-row{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+  .bar-label{font-size:12px;color:var(--text2);width:90px;text-align:right;flex-shrink:0;}
+  .bar-track{flex:1;height:6px;background:var(--bg3);border-radius:4px;overflow:hidden;}
+  .bar-fill{height:100%;border-radius:4px;transition:width .6s ease;}
+  .bar-val{font-size:11px;color:var(--text2);width:20px;}
+  .pie-row{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
+  .pie-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+  .pie-label{font-size:13px;color:var(--text);flex:1;}
+  .pie-pct{font-size:13px;font-weight:500;}
+
+  /* ─── Modal ─── */
+  .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(4px);z-index:100;align-items:center;justify-content:center;}
+  .modal-overlay.open{display:flex;}
+  .modal{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--radius);padding:22px 24px;width:360px;animation:slideUp .2s ease;}
+  @keyframes slideUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+  .modal-title{font-size:15px;font-weight:600;margin-bottom:18px;}
+  .field{margin-bottom:14px;}
+  .field label{display:block;font-size:11px;color:var(--text2);margin-bottom:6px;text-transform:uppercase;letter-spacing:.4px;}
+  .field input,.field select,.field textarea{width:100%;background:var(--bg3);border:1px solid var(--border);color:var(--text);font-family:inherit;font-size:13px;padding:8px 12px;border-radius:var(--radius-sm);outline:none;transition:border-color .15s;}
+  .field input:focus,.field select:focus,.field textarea:focus{border-color:var(--accent);}
+  .field textarea{resize:none;height:70px;}
+  .field-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  .modal-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:18px;}
+
+  /* ─── Toast ─── */
+  .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--bg3);border:1px solid var(--border2);color:var(--text);padding:10px 20px;border-radius:var(--radius);font-size:13px;transition:transform .3s ease;z-index:200;white-space:nowrap;}
+  .toast.show{transform:translateX(-50%) translateY(0);}
+  .locked{opacity:.4;pointer-events:none;}
 </style>
 </head>
 <body>
-<div class="layout">
+
+<!-- ═══ صفحة تسجيل الدخول ═══ -->
+<div class="auth-screen" id="auth-screen">
+  <div class="auth-card">
+    <div class="auth-logo">Task<span>Flow</span></div>
+    <div class="auth-sub">نظام إدارة المهام — سجّل دخولك للمتابعة</div>
+
+    <!-- الخطوة 1: الإيميل -->
+    <div class="auth-step active" id="step-email">
+      <label class="auth-label">البريد الإلكتروني</label>
+      <input class="auth-input" id="email-input" type="email" placeholder="example@email.com" dir="ltr">
+      <button class="auth-btn" id="send-btn" onclick="sendOTP()">إرسال رمز التحقق</button>
+      <div class="auth-msg" id="email-msg"></div>
+    </div>
+
+    <!-- الخطوة 2: رمز OTP -->
+    <div class="auth-step" id="step-otp">
+      <div class="otp-hint">أُرسل رمز مكوّن من 6 أرقام إلى<br><strong id="otp-email-display" dir="ltr"></strong></div>
+      <label class="auth-label">رمز التحقق</label>
+      <input class="auth-input otp" id="otp-input" type="text" maxlength="6" placeholder="——————" dir="ltr" oninput="this.value=this.value.replace(/\D/g,'')">
+      <button class="auth-btn" id="verify-btn" onclick="verifyOTP()">تأكيد الدخول</button>
+      <div class="auth-msg" id="otp-msg"></div>
+      <div class="auth-back" onclick="backToEmail()">← تغيير الإيميل</div>
+      <div class="auth-msg" style="margin-top:8px">لم يصلك الرمز؟ <span class="countdown" id="resend-countdown"></span> <span id="resend-link" style="color:var(--accent);cursor:pointer;display:none" onclick="sendOTP()">إعادة الإرسال</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ التطبيق الرئيسي ═══ -->
+<div class="app" id="app">
   <aside class="sidebar">
     <div class="sidebar-logo">
       <div class="logo-text">Task<span class="logo-dot">Flow</span></div>
     </div>
     <div class="sidebar-user">
-      <div class="avatar" id="sb-avatar" style="background:rgba(79,126,248,.2);color:#4f7ef8">أح</div>
+      <div class="avatar" id="sb-avatar" style="background:rgba(79,126,248,.2);color:#4f7ef8">؟</div>
       <div class="user-info">
-        <div class="user-name" id="sb-name">أحمد المالكي</div>
-        <span class="user-role-badge badge-admin" id="sb-badge">مدير</span>
+        <div class="user-name" id="sb-name">...</div>
+        <span class="user-role-badge" id="sb-badge">...</span>
       </div>
     </div>
     <nav class="nav">
@@ -151,20 +220,15 @@
       <div class="nav-item" id="nav-team-link" onclick="goTo('team')">
         <span class="nav-icon">◈</span> الفريق
       </div>
+      <div class="nav-item" id="nav-members-link" onclick="goTo('members')">
+        <span class="nav-icon">👥</span> الأعضاء
+      </div>
       <div class="nav-item" id="nav-reports-link" onclick="goTo('reports')">
         <span class="nav-icon">↗</span> التقارير
       </div>
     </nav>
-    <div style="padding: 0 12px 8px; display:flex; align-items:center; gap:6px;">
-      <span class="db-indicator db-off" id="db-status">● غير متصل</span>
-    </div>
-    <div class="role-switcher">
-      <div class="role-switcher-label">تجربة الأدوار</div>
-      <select onchange="switchRole(this.value)">
-        <option value="admin">مدير — صلاحية كاملة</option>
-        <option value="member">عضو — صلاحية محدودة</option>
-        <option value="viewer">مشاهد — للقراءة فقط</option>
-      </select>
+    <div class="sidebar-footer">
+      <button class="logout-btn" onclick="logout()">تسجيل الخروج</button>
     </div>
   </aside>
 
@@ -192,34 +256,40 @@
           <button class="filter-btn" onclick="setFilter('done',this)">مكتملة</button>
         </div>
       </div>
-      <div class="task-list" id="task-list"><div class="loading-state">جاري تحميل المهام...</div></div>
+      <div class="task-list" id="task-list"><div class="loading-state">جاري التحميل...</div></div>
     </div>
 
     <div class="content" id="page-my" style="display:none">
       <div class="stats" id="my-stats-row"></div>
       <div class="task-list" id="my-task-list"></div>
     </div>
+
     <div class="content" id="page-team" style="display:none">
       <div class="team-grid" id="team-grid"></div>
     </div>
+
+    <div class="content" id="page-members" style="display:none">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+        <div style="font-size:13px;color:var(--text2)">إدارة أعضاء الفريق وصلاحياتهم</div>
+        <button class="btn btn-primary" onclick="openInviteModal()">+ دعوة عضو</button>
+      </div>
+      <div class="members-list" id="members-list"><div class="loading-state">جاري التحميل...</div></div>
+    </div>
+
     <div class="content" id="page-reports" style="display:none">
       <div class="report-grid" id="report-grid"></div>
     </div>
   </main>
 </div>
 
+<!-- Modal مهمة جديدة -->
 <div class="modal-overlay" id="modal">
   <div class="modal">
     <div class="modal-title">➕ مهمة جديدة</div>
     <div class="field"><label>عنوان المهمة *</label><input id="m-title" type="text" placeholder="مثال: مراجعة التقرير الشهري"></div>
     <div class="field"><label>وصف (اختياري)</label><textarea id="m-desc" placeholder="تفاصيل إضافية..."></textarea></div>
     <div class="field-row">
-      <div class="field"><label>تعيين إلى</label>
-        <select id="m-assign">
-          <option>أحمد المالكي</option><option>سارة العمري</option>
-          <option>خالد الغامدي</option><option>نورة الشمري</option>
-        </select>
-      </div>
+      <div class="field"><label>تعيين إلى</label><select id="m-assign"></select></div>
       <div class="field"><label>الأولوية</label>
         <select id="m-priority">
           <option value="high">عالية 🔴</option>
@@ -245,88 +315,253 @@
   </div>
 </div>
 
+<!-- Modal دعوة عضو -->
+<div class="modal-overlay" id="invite-modal">
+  <div class="modal">
+    <div class="modal-title">👥 دعوة عضو جديد</div>
+    <div class="field"><label>البريد الإلكتروني</label><input id="invite-email" type="email" placeholder="example@email.com" dir="ltr"></div>
+    <div class="field"><label>الاسم الكامل</label><input id="invite-name" type="text" placeholder="الاسم الكامل"></div>
+    <div class="field"><label>الصلاحية</label>
+      <select id="invite-role">
+        <option value="member">عضو — يشوف مهامه فقط</option>
+        <option value="viewer">مشاهد — للقراءة فقط</option>
+        <option value="admin">مدير — صلاحية كاملة</option>
+      </select>
+    </div>
+    <div class="modal-actions">
+      <button class="btn" onclick="closeInviteModal()">إلغاء</button>
+      <button class="btn btn-primary" onclick="inviteMember()">إرسال الدعوة</button>
+    </div>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script>
 // ════════════════════════════════════════════════════
-// ⚠️  غيّر هذين السطرين فقط بقيمك من Supabase
+// ⚠️ غيّر هذين السطرين بقيمك من Supabase
 const SUPABASE_URL = 'https://odffpwqhotobszuwpjae.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_p50HDDEo7vA-FbEMva-nOA_pNzhcT8p';
 // ════════════════════════════════════════════════════
 
-// ─── Supabase API ────────────────────────────────────
+// ─── Supabase API ─────────────────────────────────
+const H = () => ({ 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json' });
+
 const api = {
-  headers() {
-    return { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json' };
+  // Auth
+  async sendOTP(email) {
+    const r = await fetch(`${SUPABASE_URL}/auth/v1/otp`, {
+      method:'POST',
+      headers:{ 'apikey':SUPABASE_KEY, 'Content-Type':'application/json' },
+      body: JSON.stringify({ email, options:{ shouldCreateUser:true } })
+    });
+    return r.ok;
   },
-  async getAll() {
-    try {
-      const r = await fetch(`${SUPABASE_URL}/rest/v1/tasks?order=created_at.desc`, { headers: this.headers() });
-      if (!r.ok) throw new Error();
-      setDbStatus(true);
-      return await r.json();
-    } catch { setDbStatus(false); return []; }
+  async verifyOTP(email, token) {
+    const r = await fetch(`${SUPABASE_URL}/auth/v1/verify`, {
+      method:'POST',
+      headers:{ 'apikey':SUPABASE_KEY, 'Content-Type':'application/json' },
+      body: JSON.stringify({ email, token, type:'email' })
+    });
+    if (!r.ok) return null;
+    return await r.json();
   },
-  async insert(task) {
-    try {
-      const r = await fetch(`${SUPABASE_URL}/rest/v1/tasks`, {
-        method: 'POST',
-        headers: { ...this.headers(), 'Prefer': 'return=representation' },
-        body: JSON.stringify(task)
-      });
-      if (!r.ok) throw new Error();
-      return (await r.json())[0];
-    } catch { showToast('⚠️ تعذّر الحفظ في قاعدة البيانات'); return null; }
+  async getSession() {
+    const token = localStorage.getItem('tf_token');
+    if (!token) return null;
+    const r = await fetch(`${SUPABASE_URL}/auth/v1/user`, {
+      headers:{ 'apikey':SUPABASE_KEY, 'Authorization':`Bearer ${token}` }
+    });
+    if (!r.ok) { localStorage.removeItem('tf_token'); return null; }
+    return await r.json();
   },
-  async update(id, data) {
-    try {
-      await fetch(`${SUPABASE_URL}/rest/v1/tasks?id=eq.${id}`, {
-        method: 'PATCH', headers: this.headers(), body: JSON.stringify(data)
-      });
-    } catch { showToast('⚠️ تعذّر التحديث'); }
+  // Tasks
+  async getTasks() {
+    const r = await fetch(`${SUPABASE_URL}/rest/v1/tasks?order=created_at.desc`, { headers:H() });
+    return r.ok ? r.json() : [];
   },
-  async remove(id) {
-    try {
-      await fetch(`${SUPABASE_URL}/rest/v1/tasks?id=eq.${id}`, {
-        method: 'DELETE', headers: this.headers()
-      });
-    } catch { showToast('⚠️ تعذّر الحذف'); }
+  async insertTask(task) {
+    const r = await fetch(`${SUPABASE_URL}/rest/v1/tasks`, {
+      method:'POST', headers:{...H(),'Prefer':'return=representation'}, body:JSON.stringify(task)
+    });
+    return r.ok ? (await r.json())[0] : null;
+  },
+  async updateTask(id, data) {
+    await fetch(`${SUPABASE_URL}/rest/v1/tasks?id=eq.${id}`, { method:'PATCH', headers:H(), body:JSON.stringify(data) });
+  },
+  async deleteTask(id) {
+    await fetch(`${SUPABASE_URL}/rest/v1/tasks?id=eq.${id}`, { method:'DELETE', headers:H() });
+  },
+  // Profiles
+  async getProfiles() {
+    const r = await fetch(`${SUPABASE_URL}/rest/v1/profiles?select=*`, { headers:H() });
+    return r.ok ? r.json() : [];
+  },
+  async upsertProfile(profile) {
+    await fetch(`${SUPABASE_URL}/rest/v1/profiles`, {
+      method:'POST', headers:{...H(),'Prefer':'resolution=merge-duplicates'}, body:JSON.stringify(profile)
+    });
+  },
+  async updateRole(id, role) {
+    await fetch(`${SUPABASE_URL}/rest/v1/profiles?id=eq.${id}`, { method:'PATCH', headers:H(), body:JSON.stringify({ role }) });
   }
 };
 
-function setDbStatus(on) {
-  const el = document.getElementById('db-status');
-  el.textContent = on ? '● متصل بقاعدة البيانات' : '● غير متصل';
-  el.className = 'db-indicator ' + (on ? 'db-on' : 'db-off');
-}
-
-// ─── Data ────────────────────────────────────────────
-const users = {
-  'أحمد المالكي': { initials:'أح', color:'rgba(79,126,248,.2)', tc:'#4f7ef8' },
-  'سارة العمري':  { initials:'سا', color:'rgba(52,211,153,.2)',  tc:'#34d399' },
-  'خالد الغامدي': { initials:'خا', color:'rgba(251,191,36,.2)',  tc:'#fbbf24' },
-  'نورة الشمري':  { initials:'نو', color:'rgba(167,139,250,.2)', tc:'#a78bfa' },
-};
+// ─── State ────────────────────────────────────────
 let tasks = [];
+let profiles = [];
+let currentUser = null;
+let currentProfile = null;
 let currentFilter = 'all';
-let currentRole = 'admin';
+let currentPage = 'dashboard';
 
-const roleProfiles = {
-  admin:  { name:'أحمد المالكي', badge:'مدير',   badgeClass:'badge-admin',  initials:'أح', color:'rgba(79,126,248,.2)', tc:'#4f7ef8' },
-  member: { name:'سارة العمري',  badge:'عضو',    badgeClass:'badge-member', initials:'سا', color:'rgba(52,211,153,.2)', tc:'#34d399' },
-  viewer: { name:'خالد الغامدي', badge:'مشاهد',  badgeClass:'badge-member', initials:'خا', color:'rgba(251,191,36,.2)', tc:'#fbbf24' },
-};
 const statusMap = {
   new:      { label:'جديد',        cls:'s-new' },
   progress: { label:'قيد التنفيذ', cls:'s-progress' },
   done:     { label:'مكتمل',       cls:'s-done' },
 };
+const roleLabels = { admin:'مدير', member:'عضو', viewer:'مشاهد' };
+const roleBadge  = { admin:'badge-admin', member:'badge-member', viewer:'badge-viewer' };
 
-// ─── Render ───────────────────────────────────────────
+function userColor(email) {
+  const colors = [
+    {bg:'rgba(79,126,248,.2)',tc:'#4f7ef8'},
+    {bg:'rgba(52,211,153,.2)',tc:'#34d399'},
+    {bg:'rgba(251,191,36,.2)',tc:'#fbbf24'},
+    {bg:'rgba(167,139,250,.2)',tc:'#a78bfa'},
+    {bg:'rgba(248,113,113,.2)',tc:'#f87171'},
+  ];
+  const i = (email||'').charCodeAt(0) % colors.length;
+  return colors[i];
+}
+function initials(name, email) {
+  if (name) return name.split(' ').map(w=>w[0]).join('').slice(0,2);
+  return (email||'?')[0].toUpperCase();
+}
+
+// ─── Auth Flow ────────────────────────────────────
+async function sendOTP() {
+  const email = document.getElementById('email-input').value.trim();
+  if (!email || !email.includes('@')) {
+    showAuthMsg('email-msg', 'أدخل بريداً إلكترونياً صحيحاً', 'error'); return;
+  }
+  const btn = document.getElementById('send-btn');
+  btn.disabled = true; btn.textContent = 'جاري الإرسال...';
+  const ok = await api.sendOTP(email);
+  btn.disabled = false; btn.textContent = 'إرسال رمز التحقق';
+  if (ok) {
+    document.getElementById('otp-email-display').textContent = email;
+    document.getElementById('step-email').classList.remove('active');
+    document.getElementById('step-otp').classList.add('active');
+    document.getElementById('otp-input').focus();
+    startCountdown();
+  } else {
+    showAuthMsg('email-msg', 'تعذّر الإرسال، تحقق من الإيميل وحاول مجدداً', 'error');
+  }
+}
+
+async function verifyOTP() {
+  const email = document.getElementById('email-input').value.trim();
+  const token = document.getElementById('otp-input').value.trim();
+  if (token.length < 6) { showAuthMsg('otp-msg', 'أدخل الرمز المكوّن من 6 أرقام', 'error'); return; }
+  const btn = document.getElementById('verify-btn');
+  btn.disabled = true; btn.textContent = 'جاري التحقق...';
+  const data = await api.verifyOTP(email, token);
+  btn.disabled = false; btn.textContent = 'تأكيد الدخول';
+  if (data && data.access_token) {
+    localStorage.setItem('tf_token', data.access_token);
+    currentUser = data.user;
+    await afterLogin();
+  } else {
+    showAuthMsg('otp-msg', 'الرمز غير صحيح أو منتهي الصلاحية', 'error');
+  }
+}
+
+function backToEmail() {
+  document.getElementById('step-otp').classList.remove('active');
+  document.getElementById('step-email').classList.add('active');
+  document.getElementById('otp-input').value = '';
+}
+
+let countdownTimer;
+function startCountdown() {
+  let secs = 60;
+  const el = document.getElementById('resend-countdown');
+  const link = document.getElementById('resend-link');
+  link.style.display = 'none';
+  clearInterval(countdownTimer);
+  countdownTimer = setInterval(() => {
+    secs--;
+    el.textContent = secs > 0 ? `انتظر ${secs}ث` : '';
+    if (secs <= 0) { clearInterval(countdownTimer); link.style.display = 'inline'; }
+  }, 1000);
+}
+
+function showAuthMsg(id, msg, type) {
+  const el = document.getElementById(id);
+  el.textContent = msg;
+  el.className = 'auth-msg ' + (type||'');
+}
+
+async function afterLogin() {
+  // تحقق من وجود profile أو أنشئ واحداً
+  const existing = await fetch(`${SUPABASE_URL}/rest/v1/profiles?id=eq.${currentUser.id}`, { headers:H() });
+  const prof = await existing.json();
+  if (!prof || prof.length === 0) {
+    await api.upsertProfile({ id: currentUser.id, email: currentUser.email, full_name: currentUser.email.split('@')[0], role: 'member' });
+  }
+  await loadApp();
+}
+
+async function logout() {
+  localStorage.removeItem('tf_token');
+  currentUser = null; currentProfile = null; tasks = []; profiles = [];
+  document.getElementById('app').classList.remove('active');
+  document.getElementById('auth-screen').style.display = 'flex';
+  document.getElementById('step-otp').classList.remove('active');
+  document.getElementById('step-email').classList.add('active');
+  document.getElementById('email-input').value = '';
+  document.getElementById('otp-input').value = '';
+}
+
+// ─── Load App ─────────────────────────────────────
+async function loadApp() {
+  profiles = await api.getProfiles();
+  currentProfile = profiles.find(p => p.id === currentUser.id) || { role:'member', email: currentUser.email, full_name: currentUser.email };
+  tasks = await api.getTasks();
+
+  // UI
+  const name = currentProfile.full_name || currentProfile.email;
+  const c = userColor(currentProfile.email);
+  document.getElementById('sb-name').textContent = name;
+  document.getElementById('sb-badge').textContent = roleLabels[currentProfile.role] || 'عضو';
+  document.getElementById('sb-badge').className = 'user-role-badge ' + (roleBadge[currentProfile.role]||'badge-member');
+  document.getElementById('sb-avatar').textContent = initials(currentProfile.full_name, currentProfile.email);
+  document.getElementById('sb-avatar').style.background = c.bg;
+  document.getElementById('sb-avatar').style.color = c.tc;
+
+  // إخفاء صلاحيات غير المدير
+  const isAdmin = currentProfile.role === 'admin';
+  document.getElementById('nav-members-link').style.display = isAdmin ? '' : 'none';
+  document.getElementById('nav-reports-link').classList.toggle('locked', currentProfile.role === 'viewer');
+  document.getElementById('btn-add').classList.toggle('locked', !isAdmin);
+
+  // ملء قائمة التعيين
+  const sel = document.getElementById('m-assign');
+  sel.innerHTML = profiles.map(p => `<option value="${p.full_name||p.email}">${p.full_name||p.email}</option>`).join('');
+
+  document.getElementById('auth-screen').style.display = 'none';
+  document.getElementById('app').classList.add('active');
+  render();
+  goTo('dashboard');
+}
+
+// ─── Render ───────────────────────────────────────
 function render() {
   const list = document.getElementById('task-list');
   let visible = currentFilter === 'all' ? tasks : tasks.filter(t => t.status === currentFilter);
-  if (currentRole === 'member') visible = visible.filter(t => t.assigned_to === roleProfiles.member.name);
+  const isAdmin = currentProfile?.role === 'admin';
+  if (!isAdmin) visible = visible.filter(t => t.assigned_to === (currentProfile?.full_name || currentProfile?.email));
   list.innerHTML = visible.length === 0
     ? `<div class="empty-state"><div class="empty-icon">📋</div><p>لا توجد مهام</p></div>`
     : visible.map(t => taskHTML(t)).join('');
@@ -338,12 +573,13 @@ function render() {
 }
 
 function taskHTML(t) {
-  const u = users[t.assigned_to] || { initials:'؟؟', color:'#333', tc:'#888' };
+  const c = userColor(t.assigned_to);
   const st = statusMap[t.status] || statusMap.new;
-  const canEdit = currentRole === 'admin';
-  const canCheck = currentRole === 'admin' || currentRole === 'member';
-  const pClass = { high:'p-high', med:'p-med', low:'p-low' }[t.priority] || 'p-med';
-  const dueStr = t.due_date ? new Date(t.due_date).toLocaleDateString('ar-SA', {month:'short',day:'numeric'}) : '';
+  const isAdmin = currentProfile?.role === 'admin';
+  const canCheck = currentProfile?.role !== 'viewer';
+  const pClass = {high:'p-high',med:'p-med',low:'p-low'}[t.priority]||'p-med';
+  const dueStr = t.due_date ? new Date(t.due_date).toLocaleDateString('ar-SA',{month:'short',day:'numeric'}) : '';
+  const ini = initials(t.assigned_to, t.assigned_to);
   return `<div class="task-item">
     <div class="priority-dot ${pClass}"></div>
     <div class="checkbox ${t.done?'checked':''}" onclick="${canCheck?`toggleDone('${t.id}')`:'showToast(\'ليس لديك صلاحية\')'}">${t.done?'✓':''}</div>
@@ -352,62 +588,38 @@ function taskHTML(t) {
       <div class="task-meta">
         <span class="status-badge ${st.cls}">${st.label}</span>
         <span class="assign-chip">
-          <span class="mini-avatar" style="background:${u.color};color:${u.tc}">${u.initials}</span>
+          <span class="mini-avatar" style="background:${c.bg};color:${c.tc}">${ini}</span>
           ${t.assigned_to||''}
         </span>
-        ${dueStr ? `<span class="due-date">📅 ${dueStr}</span>` : ''}
+        ${dueStr?`<span class="due-date">📅 ${dueStr}</span>`:''}
       </div>
     </div>
-    ${canEdit ? `<button class="btn btn-danger" onclick="deleteTask('${t.id}')">✕</button>` : ''}
+    ${isAdmin?`<button class="btn btn-danger" onclick="deleteTask('${t.id}')">✕</button>`:''}
   </div>`;
 }
 
-// ─── Actions ──────────────────────────────────────────
+// ─── Actions ──────────────────────────────────────
 async function toggleDone(id) {
-  const t = tasks.find(t=>t.id===id);
-  if (!t) return;
-  t.done = !t.done;
-  t.status = t.done ? 'done' : 'progress';
+  const t = tasks.find(t=>t.id===id); if (!t) return;
+  t.done = !t.done; t.status = t.done ? 'done' : 'progress';
   render();
-  await api.update(id, { done: t.done, status: t.status });
+  await api.updateTask(id, { done:t.done, status:t.status });
   showToast(t.done ? '✓ تم إكمال المهمة' : '↩ تم إعادة فتح المهمة');
 }
-
 async function deleteTask(id) {
-  if (currentRole !== 'admin') return showToast('ليس لديك صلاحية الحذف');
-  if (!confirm('هل تريد حذف هذه المهمة؟')) return;
-  tasks = tasks.filter(t=>t.id!==id);
-  render();
-  await api.remove(id);
-  showToast('🗑 تم حذف المهمة');
+  if (!confirm('حذف هذه المهمة؟')) return;
+  tasks = tasks.filter(t=>t.id!==id); render();
+  await api.deleteTask(id); showToast('🗑 تم الحذف');
 }
-
 function setFilter(f, btn) {
   currentFilter = f;
   document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  render();
+  btn.classList.add('active'); render();
 }
 
-function switchRole(role) {
-  currentRole = role;
-  const p = roleProfiles[role];
-  document.getElementById('sb-name').textContent = p.name;
-  document.getElementById('sb-badge').textContent = p.badge;
-  document.getElementById('sb-badge').className = 'user-role-badge ' + p.badgeClass;
-  document.getElementById('sb-avatar').textContent = p.initials;
-  document.getElementById('sb-avatar').style.background = p.color;
-  document.getElementById('sb-avatar').style.color = p.tc;
-  document.getElementById('btn-add').classList.toggle('locked', role !== 'admin');
-  document.getElementById('nav-reports-link').classList.toggle('locked', role === 'viewer');
-  if (role === 'viewer' && currentPage === 'reports') goTo('dashboard');
-  showToast(`تم التبديل إلى: ${p.badge}`);
-  render();
-}
-
-// ─── Modal ────────────────────────────────────────────
+// ─── Modal ────────────────────────────────────────
 function openModal() {
-  if (currentRole !== 'admin') return showToast('فقط المدير يمكنه إضافة مهام');
+  if (currentProfile?.role !== 'admin') return showToast('فقط المدير يمكنه إضافة مهام');
   document.getElementById('modal').classList.add('open');
   document.getElementById('m-title').focus();
 }
@@ -418,59 +630,69 @@ async function addTask() {
   if (!title) { document.getElementById('m-title').style.borderColor='var(--red)'; return; }
   const newTask = {
     title,
-    description:  document.getElementById('m-desc').value.trim(),
-    assigned_to:  document.getElementById('m-assign').value,
-    priority:     document.getElementById('m-priority').value,
-    status:       document.getElementById('m-status').value,
-    due_date:     document.getElementById('m-due').value || null,
-    done:         document.getElementById('m-status').value === 'done',
+    description: document.getElementById('m-desc').value.trim(),
+    assigned_to: document.getElementById('m-assign').value,
+    priority:    document.getElementById('m-priority').value,
+    status:      document.getElementById('m-status').value,
+    due_date:    document.getElementById('m-due').value || null,
+    done:        document.getElementById('m-status').value === 'done',
   };
-  closeModal();
-  showToast('جاري الحفظ...');
-  const saved = await api.insert(newTask);
+  closeModal(); showToast('جاري الحفظ...');
+  const saved = await api.insertTask(newTask);
   if (saved) {
     tasks.unshift(saved);
     ['m-title','m-desc','m-due'].forEach(id=>document.getElementById(id).value='');
-    document.getElementById('m-title').style.borderColor='';
-    render();
-    showToast('✓ تمت إضافة المهمة وحُفظت');
+    render(); showToast('✓ تمت إضافة المهمة');
   }
 }
 
-// ─── Export ───────────────────────────────────────────
-function exportTasks() {
-  const rows = [['العنوان','المسؤول','الحالة','الأولوية','تاريخ الاستحقاق']];
-  tasks.forEach(t => rows.push([t.title, t.assigned_to, statusMap[t.status]?.label||'', t.priority, t.due_date||'']));
-  const csv = rows.map(r=>r.join(',')).join('\n');
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(new Blob(['\uFEFF'+csv], {type:'text/csv;charset=utf-8;'}));
-  a.download = 'tasks.csv'; a.click();
-  showToast('⬇ تم تصدير المهام');
+// ─── Invite Member ────────────────────────────────
+function openInviteModal() { document.getElementById('invite-modal').classList.add('open'); }
+function closeInviteModal() { document.getElementById('invite-modal').classList.remove('open'); }
+
+async function inviteMember() {
+  const email = document.getElementById('invite-email').value.trim();
+  const name  = document.getElementById('invite-name').value.trim();
+  const role  = document.getElementById('invite-role').value;
+  if (!email) return;
+  // أرسل magic link للعضو الجديد
+  const ok = await api.sendOTP(email);
+  if (ok) {
+    // سجّل في profiles مسبقاً بالصلاحية المحددة
+    showToast(`✓ تم إرسال دعوة إلى ${email}`);
+    closeInviteModal();
+    document.getElementById('invite-email').value = '';
+    document.getElementById('invite-name').value = '';
+  } else {
+    showToast('⚠️ تعذّر الإرسال');
+  }
 }
 
-// ─── Navigation ───────────────────────────────────────
-let currentPage = 'dashboard';
-const pages = ['dashboard','my','team','reports'];
-const pageTitles = { dashboard:'إدارة المهام', my:'مهامي', team:'الفريق', reports:'التقارير' };
-const navIds = { dashboard:'nav-dashboard', my:'nav-my', team:'nav-team-link', reports:'nav-reports-link' };
+// ─── Navigation ───────────────────────────────────
+const pages = ['dashboard','my','team','members','reports'];
+const pageTitles = { dashboard:'إدارة المهام', my:'مهامي', team:'الفريق', members:'إدارة الأعضاء', reports:'التقارير' };
+const navIds = { dashboard:'nav-dashboard', my:'nav-my', team:'nav-team-link', members:'nav-members-link', reports:'nav-reports-link' };
 
 function goTo(page) {
-  if (page === 'reports' && currentRole === 'viewer') return showToast('المشاهد لا يملك صلاحية التقارير');
+  if (page==='reports' && currentProfile?.role==='viewer') return showToast('المشاهد لا يملك صلاحية التقارير');
+  if (page==='members' && currentProfile?.role!=='admin') return showToast('فقط المدير يمكنه إدارة الأعضاء');
   currentPage = page;
   pages.forEach(p => {
-    document.getElementById('page-'+p).style.display = p===page ? '' : 'none';
-    document.getElementById(navIds[p]).classList.toggle('active', p===page);
+    document.getElementById('page-'+p).style.display = p===page?'':'none';
+    const nav = document.getElementById(navIds[p]);
+    if (nav) nav.classList.toggle('active', p===page);
   });
   document.getElementById('page-title').textContent = pageTitles[page];
-  document.getElementById('btn-export').style.display = page==='dashboard' ? '' : 'none';
-  document.getElementById('btn-add').style.display    = page==='dashboard' ? '' : 'none';
+  document.getElementById('btn-export').style.display = page==='dashboard'?'':'none';
+  document.getElementById('btn-add').style.display    = page==='dashboard'?'':'none';
   if (page==='my')      renderMyTasks();
   if (page==='team')    renderTeam();
+  if (page==='members') renderMembers();
   if (page==='reports') renderReports();
 }
 
 function renderMyTasks() {
-  const me = roleProfiles[currentRole].name;
+  const me = currentProfile?.full_name || currentProfile?.email;
   const mine = tasks.filter(t=>t.assigned_to===me);
   document.getElementById('my-stats-row').innerHTML = `
     <div class="stat-card"><div class="stat-num num-default">${mine.length}</div><div class="stat-label">مهامي</div></div>
@@ -483,36 +705,68 @@ function renderMyTasks() {
 }
 
 function renderTeam() {
-  document.getElementById('team-grid').innerHTML = Object.keys(users).map(name => {
-    const u = users[name];
-    const myT = tasks.filter(t=>t.assigned_to===name);
-    return `<div class="team-card">
-      <div class="team-avatar" style="background:${u.color};color:${u.tc}">${u.initials}</div>
-      <div class="team-name">${name}</div>
-      <div class="team-role">${name==='أحمد المالكي'?'مدير':'عضو فريق'}</div>
-      <div class="team-stats">
-        <div class="team-stat"><div class="team-stat-num" style="color:var(--accent)">${myT.length}</div><div class="team-stat-label">مهام</div></div>
-        <div class="team-stat"><div class="team-stat-num" style="color:var(--amber)">${myT.filter(t=>t.status==='progress'&&!t.done).length}</div><div class="team-stat-label">جارية</div></div>
-        <div class="team-stat"><div class="team-stat-num" style="color:var(--green)">${myT.filter(t=>t.done).length}</div><div class="team-stat-label">مكتملة</div></div>
+  const names = [...new Set(tasks.map(t=>t.assigned_to).filter(Boolean))];
+  document.getElementById('team-grid').innerHTML = names.length===0
+    ? `<div class="empty-state"><div class="empty-icon">👥</div><p>لا يوجد أعضاء بعد</p></div>`
+    : names.map(name => {
+        const c = userColor(name);
+        const myT = tasks.filter(t=>t.assigned_to===name);
+        return `<div class="team-card">
+          <div class="team-avatar" style="background:${c.bg};color:${c.tc}">${initials(name,name)}</div>
+          <div class="team-name">${name}</div>
+          <div class="team-stats">
+            <div class="team-stat"><div class="team-stat-num" style="color:var(--accent)">${myT.length}</div><div class="team-stat-label">مهام</div></div>
+            <div class="team-stat"><div class="team-stat-num" style="color:var(--amber)">${myT.filter(t=>t.status==='progress'&&!t.done).length}</div><div class="team-stat-label">جارية</div></div>
+            <div class="team-stat"><div class="team-stat-num" style="color:var(--green)">${myT.filter(t=>t.done).length}</div><div class="team-stat-label">مكتملة</div></div>
+          </div>
+        </div>`;
+      }).join('');
+}
+
+function renderMembers() {
+  const list = document.getElementById('members-list');
+  if (profiles.length === 0) {
+    list.innerHTML = `<div class="empty-state"><div class="empty-icon">👥</div><p>لا يوجد أعضاء بعد — ادعُ أعضاء جدد</p></div>`; return;
+  }
+  list.innerHTML = profiles.map(p => {
+    const c = userColor(p.email);
+    const isMe = p.id === currentUser?.id;
+    return `<div class="member-row">
+      <div class="avatar" style="background:${c.bg};color:${c.tc}">${initials(p.full_name,p.email)}</div>
+      <div class="member-info">
+        <div class="member-name">${p.full_name||p.email} ${isMe?'<span style="font-size:10px;color:var(--text3)">(أنت)</span>':''}</div>
+        <div class="member-email" dir="ltr">${p.email}</div>
       </div>
+      <select class="role-select" onchange="changeRole('${p.id}',this.value)" ${isMe?'disabled':''}>
+        <option value="admin"  ${p.role==='admin' ?'selected':''}>مدير</option>
+        <option value="member" ${p.role==='member'?'selected':''}>عضو</option>
+        <option value="viewer" ${p.role==='viewer'?'selected':''}>مشاهد</option>
+      </select>
     </div>`;
   }).join('');
+}
+
+async function changeRole(id, role) {
+  await api.updateRole(id, role);
+  profiles = profiles.map(p => p.id===id ? {...p, role} : p);
+  showToast('✓ تم تحديث الصلاحية');
 }
 
 function renderReports() {
   const total = tasks.length || 1;
   const byStatus = [
-    { label:'جديد',        count:tasks.filter(t=>t.status==='new').length,      color:'var(--accent)' },
-    { label:'قيد التنفيذ', count:tasks.filter(t=>t.status==='progress').length,  color:'var(--amber)' },
-    { label:'مكتمل',       count:tasks.filter(t=>t.done).length,                 color:'var(--green)' },
+    {label:'جديد',        count:tasks.filter(t=>t.status==='new').length,      color:'var(--accent)'},
+    {label:'قيد التنفيذ', count:tasks.filter(t=>t.status==='progress').length,  color:'var(--amber)'},
+    {label:'مكتمل',       count:tasks.filter(t=>t.done).length,                 color:'var(--green)'},
   ];
   const byPriority = [
-    { label:'عالية',    count:tasks.filter(t=>t.priority==='high').length, color:'var(--red)' },
-    { label:'متوسطة',   count:tasks.filter(t=>t.priority==='med').length,  color:'var(--amber)' },
-    { label:'منخفضة',   count:tasks.filter(t=>t.priority==='low').length,  color:'var(--green)' },
+    {label:'عالية',   count:tasks.filter(t=>t.priority==='high').length, color:'var(--red)'},
+    {label:'متوسطة',  count:tasks.filter(t=>t.priority==='med').length,  color:'var(--amber)'},
+    {label:'منخفضة',  count:tasks.filter(t=>t.priority==='low').length,  color:'var(--green)'},
   ];
-  const byMember = Object.keys(users).map(name=>({ label:name, count:tasks.filter(t=>t.assigned_to===name).length, color:users[name].tc })).sort((a,b)=>b.count-a.count);
-  const maxM = Math.max(...byMember.map(m=>m.count), 1);
+  const names = [...new Set(tasks.map(t=>t.assigned_to).filter(Boolean))];
+  const byMember = names.map(name=>({label:name, count:tasks.filter(t=>t.assigned_to===name).length, color:userColor(name).tc})).sort((a,b)=>b.count-a.count);
+  const maxM = Math.max(...byMember.map(m=>m.count),1);
   document.getElementById('report-grid').innerHTML = `
     <div class="report-card">
       <div class="report-card-title">حسب الحالة</div>
@@ -523,12 +777,22 @@ function renderReports() {
       ${byPriority.map(p=>`<div class="pie-row"><div class="pie-dot" style="background:${p.color}"></div><div class="pie-label">${p.label}</div><div class="pie-pct" style="color:${p.color}">${p.count}</div></div><div class="bar-track" style="margin-bottom:10px"><div class="bar-fill" style="width:${Math.round(p.count/total*100)}%;background:${p.color}"></div></div>`).join('')}
     </div>
     <div class="report-card" style="grid-column:1/-1">
-      <div class="report-card-title">عبء العمل لكل عضو</div>
+      <div class="report-card-title">عبء العمل</div>
       ${byMember.map(m=>`<div class="bar-row"><div class="bar-label">${m.label}</div><div class="bar-track"><div class="bar-fill" style="width:${Math.round(m.count/maxM*100)}%;background:${m.color}"></div></div><div class="bar-val">${m.count}</div></div>`).join('')}
     </div>`;
 }
 
-// ─── Toast ────────────────────────────────────────────
+// ─── Export ───────────────────────────────────────
+function exportTasks() {
+  const rows = [['العنوان','المسؤول','الحالة','الأولوية','تاريخ الاستحقاق']];
+  tasks.forEach(t=>rows.push([t.title,t.assigned_to,statusMap[t.status]?.label||'',t.priority,t.due_date||'']));
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob(['\uFEFF'+rows.map(r=>r.join(',')).join('\n')],{type:'text/csv;charset=utf-8;'}));
+  a.download = 'tasks.csv'; a.click();
+  showToast('⬇ تم التصدير');
+}
+
+// ─── Toast ────────────────────────────────────────
 let toastTimer;
 function showToast(msg) {
   const t = document.getElementById('toast');
@@ -537,14 +801,16 @@ function showToast(msg) {
   toastTimer = setTimeout(()=>t.classList.remove('show'), 2500);
 }
 
-document.getElementById('modal').addEventListener('click', e => { if (e.target===document.getElementById('modal')) closeModal(); });
-document.addEventListener('keydown', e => { if (e.key==='Escape') closeModal(); });
+document.getElementById('modal').addEventListener('click',e=>{if(e.target===document.getElementById('modal'))closeModal();});
+document.getElementById('invite-modal').addEventListener('click',e=>{if(e.target===document.getElementById('invite-modal'))closeInviteModal();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeModal();closeInviteModal();}});
+document.getElementById('otp-input').addEventListener('keydown',e=>{if(e.key==='Enter')verifyOTP();});
+document.getElementById('email-input').addEventListener('keydown',e=>{if(e.key==='Enter')sendOTP();});
 
-// ─── Init ─────────────────────────────────────────────
+// ─── Init ─────────────────────────────────────────
 async function init() {
-  tasks = await api.getAll();
-  render();
-  goTo('dashboard');
+  const user = await api.getSession();
+  if (user) { currentUser = user; await afterLogin(); }
 }
 init();
 </script>
